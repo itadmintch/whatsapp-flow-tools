@@ -1,26 +1,15 @@
 {
   "routing_model": {
-    "WELCOME": [
-      "ADMISSION"
-    ],
-    "ADMISSION": [
-      "REGISTRATION",
-      "PASIEN"
-    ],
-    "REGISTRATION": [
-      "KONFIRMASI"
-    ],
-    "PASIEN": [
-      "KONFIRMASI"
-    ],
-    "KONFIRMASI": [
-      "COMPLETE"
-    ],
+    "WELCOME": ["ADMISSION"],
+    "ADMISSION": ["REGISTRATION", "PASIEN"],
+    "REGISTRATION": ["KONFIRMASI"],
+    "PASIEN": ["KONFIRMASI"],
+    "KONFIRMASI": ["COMPLETE"],
     "COMPLETE": []
   },
   "data_api_version": "3.0",
   "screens": [
-     {
+    {
       "id": "WELCOME",
       "title": "Welcome",
       "data": {
@@ -36,15 +25,15 @@
             "text": "Welcome to the Hospital Booking System! Please proceed to Admission."
           },
           {
-                "label": "Continue",
-                "on-click-action": {
-                  "name": "data_exchange",
-                  "payload": {
-                    "trigger": "INIT"
-                  }
-                },
-                "type": "Footer"
+            "label": "Continue",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {
+                "trigger": "INIT"
               }
+            },
+            "type": "Footer"
+          }
         ],
         "type": "SingleColumnLayout"
       }
