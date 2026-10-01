@@ -44,13 +44,13 @@ async function processFlowRequest(input, getNextScreen) {
   }
 
   const { aesKeyBuffer, initialVectorBuffer, decryptedBody } = decryptedRequest;
-  // console.log("💬 Decrypted Request:", JSON.stringify(decryptedBody, null, 2));
+//   console.log('💬 Decrypted Request:', JSON.stringify(decryptedBody, null, 2));
 
   // Step 2: Process the request and get the screen response
   let screenResponse;
   try {
     screenResponse = await getNextScreen(decryptedBody);
-    // console.log("👉 Response to Encrypt:", JSON.stringify(screenResponse, null, 2));
+    // console.log('👉 Response to Encrypt:', JSON.stringify(screenResponse, null, 2));
   } catch (err) {
     console.error('❌ Screen processing error:', err);
 

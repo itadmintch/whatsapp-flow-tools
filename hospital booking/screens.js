@@ -117,7 +117,7 @@ const fetchDatesByDokter = async (dokterId) => {
       args: [dokterId]
     });
 
-    console.log(`Fetched dates for dokter ${dokterId} from Iris API:`, irisResponse.data.result);
+    // console.log(`Fetched dates for dokter ${dokterId} from Iris API:`, irisResponse.data.result);
     if (irisResponse.data.result instanceof Object) {
       return irisResponse.data.result || [];
     } else {
@@ -127,6 +127,22 @@ const fetchDatesByDokter = async (dokterId) => {
   } catch (error) {
     console.error(`Failed to fetch dates for dokter ${dokterId} from Iris API:`, error);
     throw new Error(`Failed to fetch dates for dokter ${dokterId} from Iris API: ` + error.message);
+  }
+};
+
+const fetchSession = async (dokterId, date) => {
+  try {
+    const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch', {
+      className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowSession',
+      methodName: 'GetSessionByDate',
+      args: [dokterId, date]
+    });
+
+    console.log('Test Fetched Iris API:', irisResponse.data);
+    return irisResponse.data.result || [];
+  } catch (error) {
+    console.error('Failed to fetch klinik from Iris API:', error);
+    throw new Error('Failed to fetch klinik from Iris API: ' + error.message);
   }
 };
 
@@ -144,8 +160,8 @@ async function getInitialAdmissionScreen(data) {
       klinik: await fetchKlinik(),
       dokter: [],
       date: {},
-      is_dokter_enabled: true,
-      is_date_enabled: true,
+      is_dokter_enabled: false,
+      is_date_enabled: false,
       is_time_enabled: false
     }
   };
@@ -235,6 +251,8 @@ async function handleAdmissionScreen(data) {
   const hasDokter = Boolean(data.dokter);
   const hasDate = Boolean(data.date);
 
+  console.log('Handling ADMISSION screen with data:', data);
+
   // Get options based on current selections
   const dokterOptions = await fetchDokterByKlinik(data.klinik);
   //   const dokterOptions = [
@@ -243,7 +261,8 @@ async function handleAdmissionScreen(data) {
   //   ]; // Placeholder for actual dokter options
   const dokterOptionsEmpty = !dokterOptions || dokterOptions.length === 0;
   const dateOptions = hasDokter ? await fetchDatesByDokter(data.dokter) : {};
-  const timeOptions = hasDate && hasDokter ? getTimeOptionsForDokterAndDateHelper(data.dokter, data.date) : [];
+  //   const timeOptions = hasDate && hasDokter ? getTimeOptionsForDokterAndDateHelper(data.dokter, data.date) : [];
+  const timeOptions = hasDate && hasDokter ? await fetchSession(data.dokter, data.date) : [];
   const tipePasienOptions = getTipePasienOptionsHelper();
   const pembayaranOptions = getPembayaranOptionsHelper();
 
