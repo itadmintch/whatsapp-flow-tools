@@ -1,9 +1,4 @@
-const {
-  ADMISSION_OPTIONS,
-  DOKTER_LIST_MIN,
-  DOKTER_BY_KLINIK,
-  DATES_BY_DOKTER_ID
-} = require('./data');
+const { ADMISSION_OPTIONS, DOKTER_LIST_MIN, DOKTER_BY_KLINIK, DATES_BY_DOKTER_ID } = require('./data');
 
 // =============================================================================
 // OPTION LOOKUP FUNCTIONS

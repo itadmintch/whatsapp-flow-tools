@@ -1,5 +1,6 @@
 const http = require('http');
 const { processFlowRequest, getCryptoDiagnostics } = require('./hospital booking/booking');
+const axios = require('axios');
 
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -135,6 +136,30 @@ const server = http.createServer(async (req, res) => {
       });
     }
     return;
+  }
+
+  // Iris API Call Testing
+  if (req.method === 'POST' && req.url === '/iris/test') {
+    try {
+      const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch', {
+        className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowSchedule',
+        methodName: 'GetScheduleByDoctorJSON',
+        args: ['80000019']
+      });
+
+      console.log('Test Fetched Iris API:', irisResponse.data);
+      sendJson(res, 200, {
+        data: irisResponse.data.result || []
+      });
+    } catch (error) {
+      console.error('Failed to fetch klinik from Iris API:', error);
+      sendJson(res, 500, {
+        status: 'error',
+        message: 'Failed to fetch klinik from Iris API: ' + error.message
+      });
+    } finally {
+      return;
+    }
   }
 
   sendJson(res, 404, {
