@@ -174,26 +174,13 @@
           },
           "__example__": [
             {
-              "id": "10:30",
-              "title": "10:30"
+              "id": "08:00-12:00",
+              "title": "08:00-12:00"
             },
             {
-              "id": "11:00",
-              "title": "11:00",
+              "id": "13:00-17:00",
+              "title": "13:00-17:00",
               "enabled": false
-            },
-            {
-              "id": "11:30",
-              "title": "11:30"
-            },
-            {
-              "id": "12:00",
-              "title": "12:00",
-              "enabled": false
-            },
-            {
-              "id": "12:30",
-              "title": "12:30"
             }
           ]
         },
@@ -330,7 +317,9 @@
                 "on-select-action": {
                   "name": "data_exchange",
                   "payload": {
-                    "calendar": "${form.calendar}"
+                    "klinik": "${form.klinik}",
+                    "dokter": "${form.dokter}",
+                    "date": "${form.calendar}"
                   }
                 }
               },
