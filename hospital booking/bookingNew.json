@@ -371,38 +371,6 @@
       "id": "REGISTRATION",
       "title": "REGISTRATION",
       "data": {
-        "tipe_kartu": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "title": {
-                "type": "string"
-              }
-            }
-          },
-          "__example__": [
-            {
-              "id": "1",
-              "title": "KTP"
-            },
-            {
-              "id": "2",
-              "title": "KIA"
-            },
-            {
-              "id": "3",
-              "title": "KK"
-            },
-            {
-              "id": "4",
-              "title": "Passport"
-            }
-          ]
-        },
         "jenis_kelamin": {
           "type": "array",
           "items": {
@@ -433,8 +401,13 @@
           {
             "children": [
               {
+                "text": "Silakan isi nama lengkap, tanggal lahir & nomor telepon atau Whatsapp Anda.",
+                "type": "TextCaption"
+              },
+              {
                 "input-type": "text",
                 "label": "Nama Lengkap",
+                "helper-text": "Sesuai KTP",
                 "name": "nama_lengkap",
                 "required": true,
                 "type": "TextInput",
@@ -442,31 +415,19 @@
               },
               {
                 "label": "Tanggal Lahir",
+                "helper-text": "Sesuai KTP",
                 "name": "tanggal_lahir",
                 "required": true,
                 "type": "CalendarPicker"
               },
               {
                 "input-type": "text",
-                "label": "Tempat Lahir",
-                "name": "tempat_lahir",
+                "label": "Nomor Telepon",
+                "name": "nomor_telepon",
+                "helper-text": "Mohon masukkan angka saja",
                 "required": true,
                 "type": "TextInput",
                 "min-chars": 3
-              },
-              {
-                "data-source": "${data.tipe_kartu}",
-                "label": "Tipe Kartu",
-                "name": "tipe_kartu",
-                "required": true,
-                "type": "Dropdown"
-              },
-              {
-                "input-type": "text",
-                "label": "Nomor Kartu",
-                "name": "nomor_kartu",
-                "required": true,
-                "type": "TextInput"
               },
               {
                 "data-source": "${data.jenis_kelamin}",
@@ -483,9 +444,7 @@
                     "trigger": "submit_registration",
                     "nama_lengkap": "${form.nama_lengkap}",
                     "tanggal_lahir": "${form.tanggal_lahir}",
-                    "tempat_lahir": "${form.tempat_lahir}",
-                    "tipe_kartu": "${form.tipe_kartu}",
-                    "nomor_kartu": "${form.nomor_kartu}",
+                    "nomor_telepon": "${form.nomor_telepon}",
                     "jenis_kelamin": "${form.jenis_kelamin}"
                   }
                 },
@@ -507,22 +466,31 @@
           {
             "children": [
               {
-                "text": "Silakan isi nama & tanggal lahir atau nomor WA terdaftar",
+                "text": "Silakan isi nama lengkap, tanggal lahir & nomor telepon atau Whatsapp yang terdaftar",
                 "type": "TextCaption"
               },
               {
                 "input-type": "text",
-                "label": "Nama Pasien/No.Telp",
-                "name": "pasien_nama_or_telp",
+                "label": "Nama Lengkap",
+                "helper-text": "Sesuai KTP",
+                "name": "pasien_nama",
                 "required": true,
-                "type": "TextInput",
-                "helper-text": "Mohon masukkan huruf dan angka saja"
+                "type": "TextInput"
               },
               {
                 "label": "Tanggal Lahir",
+                "helper-text": "Sesuai KTP",
                 "name": "pasien_tanggal_lahir",
                 "required": true,
                 "type": "CalendarPicker"
+              },
+              {
+                "input-type": "text",
+                "label": "Nomor Telepon",
+                "helper-text": "Mohon masukkan angka saja.",
+                "name": "pasien_nomor_telepon",
+                "required": true,
+                "type": "TextInput"
               },
               {
                 "label": "Selanjutnya",
@@ -530,8 +498,9 @@
                   "name": "data_exchange",
                   "payload": {
                     "trigger": "sign_in",
-                    "pasien_nama_or_telp": "${form.pasien_nama_or_telp}",
-                    "pasien_tanggal_lahir": "${form.pasien_tanggal_lahir}"
+                    "pasien_nama": "${form.pasien_nama}",
+                    "pasien_tanggal_lahir": "${form.pasien_tanggal_lahir}",
+                    "pasien_nomor_telepon": "${form.pasien_nomor_telepon}"
                   }
                 },
                 "type": "Footer"
@@ -548,6 +517,14 @@
       "id": "KONFIRMASI",
       "data": {
         "user_id": {
+          "type": "string",
+          "__example__": ""
+        },
+        "pasien_nama": {
+          "type": "string",
+          "__example__": ""
+        },
+        "nama_lengkap": {
           "type": "string",
           "__example__": ""
         }
@@ -567,15 +544,26 @@
                 "visible": "`${data.user_id} != ''`"
               },
               {
-                "text": "`'**Nama Pasien:** ' ${screen.PASIEN.form.pasien_nama_or_telp}`",
-                "markdown": true,
+                "text": "Nama Lengkap:",
                 "type": "TextBody",
-                "visible": "`${screen.PASIEN.form.pasien_nama_or_telp} != ''`"
+                "visible": "`${data.pasien_nama} != ''`"
               },
               {
-                "text": "`'Nama: ' ${screen.REGISTRATION.form.nama_lengkap}`",
+                "text": "`${data.pasien_nama}`",
                 "type": "TextBody",
-                "visible": "`${screen.REGISTRATION.form.nama_lengkap} != ''`"
+                "font-weight": "bold",
+                "visible": "`${data.pasien_nama} != ''`"
+              },
+              {
+                "text": "Nama Lengkap:",
+                "type": "TextBody",
+                "visible": "`${data.nama_lengkap} != ''`"
+              },
+              {
+                "text": "`${data.nama_lengkap}`",
+                "type": "TextBody",
+                "font-weight": "bold",
+                "visible": "`${data.nama_lengkap} != ''`"
               },
               {
                 "text": "`'Klinik: ' ${screen.ADMISSION.form.klinik}`",
@@ -585,14 +573,14 @@
               {
                 "data-source": "`${screen.ADMISSION.data.klinik}`",
                 "type": "Dropdown",
-                "label": "klinik",
+                "label": "Klinik",
                 "name": "klinik",
                 "enabled": false
               },
               {
                 "data-source": "`${screen.ADMISSION.data.dokter}`",
                 "type": "Dropdown",
-                "label": "dokter",
+                "label": "Dokter",
                 "name": "dokter",
                 "enabled": false
               },
@@ -602,16 +590,26 @@
                 "visible": false
               },
               {
-                "text": "`'Tanggal: ' ${screen.ADMISSION.form.calendar}`",
+                "text": "Tanggal [YYYY-MM-DD]:",
                 "type": "TextBody"
               },
               {
-                "text": "`'Jam: ' ${screen.ADMISSION.form.time}`",
+                "text": "`${screen.ADMISSION.form.calendar}`",
+                "type": "TextBody",
+                "font-weight": "bold"
+              },
+              {
+                "text": "Jam:",
                 "type": "TextBody"
               },
               {
-                "text": "Harap pastikan data anda benar",
-                "type": "TextBody"
+                "text": "`${screen.ADMISSION.form.time}`",
+                "type": "TextBody",
+                "font-weight": "bold"
+              },
+              {
+                "text": "Harap pastikan data Anda benar",
+                "type": "TextCaption"
               },
               {
                 "label": "Booking Sekarang",
@@ -620,13 +618,11 @@
                   "payload": {
                     "trigger": "submit_booking",
                     "user_id": "${data.user_id}",
-                    "nama_lengkap": "${screen.REGISTRATION.form.nama_lengkap}",
+                    "nama_lengkap": "${data.nama_lengkap}",
                     "tanggal_lahir": "${screen.REGISTRATION.form.tanggal_lahir}",
-                    "tempat_lahir": "${screen.REGISTRATION.form.tempat_lahir}",
-                    "tipe_kartu": "${screen.REGISTRATION.form.tipe_kartu}",
-                    "nomor_kartu": "${screen.REGISTRATION.form.nomor_kartu}",
+                    "nomor_telepon": "${screen.REGISTRATION.form.nomor_telepon}",
                     "jenis_kelamin": "${screen.REGISTRATION.form.jenis_kelamin}",
-                    "pasien_nama_or_telp": "${screen.PASIEN.form.pasien_nama_or_telp}",
+                    "pasien_nama": "${data.pasien_nama}",
                     "pasien_tanggal_lahir": "${screen.PASIEN.form.pasien_tanggal_lahir}",
                     "klinik": "${screen.ADMISSION.form.klinik}",
                     "dokter": "${screen.ADMISSION.form.dokter}",
@@ -655,33 +651,9 @@
       "id": "COMPLETE",
       "title": "Booking Berhasil",
       "data": {
-        "user_id": {
-          "type": "string",
-          "__example__": "demo-user-001"
-        },
-        "booking_qr_code": {
+        "success_image": {
           "type": "string",
           "__example__": ""
-        },
-        "booking_code": {
-          "type": "string",
-          "__example__": "CODE"
-        },
-        "nama": {
-          "type": "string",
-          "__example__": "John Doe"
-        },
-        "dokter": {
-          "type": "string",
-          "__example__": "dr. Sarah Wijaya, M.Sc, Sp.A"
-        },
-        "ruang": {
-          "type": "string",
-          "__example__": "Ruang Demo 1"
-        },
-        "antrian": {
-          "type": "string",
-          "__example__": "A-001"
         }
       },
       "terminal": true,
@@ -694,23 +666,9 @@
             "children": [
               {
                 "type": "Image",
-                "src": "${data.booking_qr_code}",
+                "src": "${data.success_image}",
                 "height": 128,
                 "scale-type": "contain"
-              },
-              {
-                "type": "TextSubheading",
-                "text": "`'Kode Booking: ' ${data.booking_code}`"
-              },
-              {
-                "type": "TextCaption",
-                "markdown": true,
-                "text": [
-                  "`'Pasien atas nama: ' ${data.nama}`",
-                  "`'Terdaftar di ' ${data.dokter} ', Ruang ' ${data.ruang} ', No urut ' ${data.antrian} ', No booking **' ${data.booking_code} '**. Registrasi di Admisi Gedung B, dengan syarat wajib membawa identitas diri seperti KTP/KIA/KK dan Kartu Asuransi bagi yang menggunakan.'`",
-                  "Sistem antrian poliklinik , jika pasien terlambat datang akan dilompati minimal 3 (tiga) pasien.",
-                  "Terima Kasih sudah mempercayakan perawatan kesehatan Rawat Jalan di Rumah Sakit \"ABC Hospital\". "
-                ]
               },
               {
                 "type": "Footer",
@@ -718,13 +676,11 @@
                 "on-click-action": {
                   "name": "complete",
                   "payload": {
-                    "nama_lengkap": "${screen.REGISTRATION.form.nama_lengkap}",
+                    "nama_lengkap": "${screen.KONFIRMASI.nama_lengkap}",
                     "tanggal_lahir": "${screen.REGISTRATION.form.tanggal_lahir}",
-                    "tempat_lahir": "${screen.REGISTRATION.form.tempat_lahir}",
-                    "tipe_kartu": "${screen.REGISTRATION.form.tipe_kartu}",
-                    "nomor_kartu": "${screen.REGISTRATION.form.nomor_kartu}",
+                    "nomor_telepon": "${screen.REGISTRATION.form.nomor_telepon}",
                     "jenis_kelamin": "${screen.REGISTRATION.form.jenis_kelamin}",
-                    "pasien_nama_or_telp": "${screen.PASIEN.form.pasien_nama_or_telp}",
+                    "pasien_nama": "${screen.KONFIRMASI.pasien_nama}",
                     "pasien_tanggal_lahir": "${screen.PASIEN.form.pasien_tanggal_lahir}",
                     "klinik": "${screen.ADMISSION.form.klinik}",
                     "dokter": "${screen.ADMISSION.form.dokter}",
