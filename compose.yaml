@@ -5,6 +5,39 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      NODE_ENV: production
+      NODE_ENV: ${NODE_ENV:-production}
+
+      # RSA decryption
+      RSA_PASSPHRASE: ${RSA_PASSPHRASE}
+      RSA_PRIVATE_KEY: ${RSA_PRIVATE_KEY}
+
+      # API endpoints
+      API_BASE_URL: ${API_BASE_URL}
+      API_SIGNUP_ENDPOINT: ${API_SIGNUP_ENDPOINT:-/webhook/signup}
+      API_SIGNIN_ENDPOINT: ${API_SIGNIN_ENDPOINT:-/webhook/sign_in}
+      API_BOOKING_ENDPOINT: ${API_BOOKING_ENDPOINT:-/webhook/submitbooking}
+
+      # Demo mode switch (single flag for all demo mocks)
+      DEMO_MODE: ${DEMO_MODE:-false}
+
+      # Demo-only sign-in mock (active only when DEMO_MODE=true)
+      SIGNIN_MOCK_NAME_OR_PHONE: ${SIGNIN_MOCK_NAME_OR_PHONE:-}
+      SIGNIN_MOCK_BIRTH_DATE: ${SIGNIN_MOCK_BIRTH_DATE:-}
+      SIGNIN_MOCK_USER_ID: ${SIGNIN_MOCK_USER_ID:-}
+
+      # Demo-only booking mock (active only when DEMO_MODE=true)
+      BOOKING_MOCK_USER_ID_MATCH: ${BOOKING_MOCK_USER_ID_MATCH:-}
+      BOOKING_MOCK_CODE: ${BOOKING_MOCK_CODE:-}
+      BOOKING_MOCK_QR: ${BOOKING_MOCK_QR:-}
+      BOOKING_MOCK_QUEUE: ${BOOKING_MOCK_QUEUE:-}
+      BOOKING_MOCK_ROOM: ${BOOKING_MOCK_ROOM:-}
     ports:
       - 3000:3000
+    networks:
+      tch-dicomviewer:
+        aliases:
+          - wa-flow
+
+networks:
+  tch-dicomviewer:
+    external: true
