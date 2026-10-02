@@ -141,6 +141,7 @@ const server = http.createServer(async (req, res) => {
   // Iris API Call Testing
   if (req.method === 'POST' && req.url === '/iris/test') {
     try {
+      console.log('Fetching from Iris API...');
       const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch', {
         className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowSession',
         methodName: 'GetSessionByDate',
