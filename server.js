@@ -142,6 +142,14 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'POST' && req.url === '/iris/test') {
     try {
       console.log('Fetching from Iris API...');
+      console.log('Environment:', process.env.NODE_ENV);
+      console.log(
+        'Using URL:',
+        process.env.NODE_ENV === 'production'
+          ? 'http://sp-testing-toolkit-api-enkcbf:3000/sp/fetch/BASE'
+          : 'http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE'
+      );
+
       const irisResponse = await axios.post(
         process.env.NODE_ENV === 'production'
           ? 'http://sp-testing-toolkit-api-enkcbf:3000/sp/fetch/BASE'
