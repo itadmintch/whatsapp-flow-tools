@@ -142,11 +142,17 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'POST' && req.url === '/iris/test') {
     try {
       console.log('Fetching from Iris API...');
-      const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE', {
-        className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowSession',
-        methodName: 'GetSessionByDate',
-        args: ['80000131', '2026-10-13']
-      });
+      const irisResponse = await axios.post(
+        'http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE',
+        {
+          className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowSession',
+          methodName: 'GetSessionByDate',
+          args: ['80000131', '2026-10-13']
+        },
+        {
+          timeout: 5000 // 5 seconds timeout
+        }
+      );
 
       console.log('Test Fetched Iris API:', irisResponse.data);
       sendJson(res, 200, {
