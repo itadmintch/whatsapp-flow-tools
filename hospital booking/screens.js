@@ -57,7 +57,7 @@ async function getNextScreen(decryptedBody) {
 // Fetch klinik from Iris
 const fetchKlinik = async () => {
   try {
-    const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch', {
+    const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE', {
       className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowClinic',
       methodName: 'GetClinicJSON',
       args: []
@@ -84,7 +84,7 @@ const fetchDokterByKlinik = async (klinikId) => {
       return [];
     }
 
-    const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch', {
+    const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE', {
       className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowDoctor',
       methodName: 'GetDoctorByClinicJSON',
       args: [klinikId]
@@ -111,7 +111,7 @@ const fetchDatesByDokter = async (dokterId) => {
       return [];
     }
 
-    const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch', {
+    const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE', {
       className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowSchedule',
       methodName: 'GetScheduleByDoctorJSON',
       args: [dokterId]
@@ -132,7 +132,7 @@ const fetchDatesByDokter = async (dokterId) => {
 
 const fetchSession = async (dokterId, date) => {
   try {
-    const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch', {
+    const irisResponse = await axios.post('http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE', {
       className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowSession',
       methodName: 'GetSessionByDate',
       args: [dokterId, date]
@@ -255,7 +255,7 @@ async function handleAdmissionScreen(data) {
 
   // Get options based on current selections
   const dokterOptions = await fetchDokterByKlinik(data.klinik);
-  
+
   //   ]; // Placeholder for actual dokter options
   const dokterOptionsEmpty = !dokterOptions || dokterOptions.length === 0;
   const dateOptions = hasDokter ? await fetchDatesByDokter(data.dokter) : {};
