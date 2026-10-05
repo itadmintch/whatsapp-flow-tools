@@ -152,7 +152,7 @@ const server = http.createServer(async (req, res) => {
 
       const irisResponse = await axios.post(
         process.env.NODE_ENV === 'production'
-          ? 'http://sp-testing-toolkit-api-enkcbf:3000/sp/fetch/BASE'
+          ? 'http://iris-api:3000/sp/fetch/BASE'
           : 'http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE',
         {
           className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowSession',
