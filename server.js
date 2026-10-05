@@ -146,7 +146,7 @@ const server = http.createServer(async (req, res) => {
       console.log(
         'Using URL:',
         process.env.NODE_ENV === 'production'
-          ? 'http://sp-testing-toolkit-api-enkcbf:3000/sp/fetch/BASE'
+          ? 'http://iris-api:3000/sp/fetch/BASE'
           : 'http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE'
       );
 
