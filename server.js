@@ -142,18 +142,10 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'POST' && req.url === '/iris/test') {
     try {
       console.log('Fetching from Iris API...');
-      console.log('Environment:', process.env.NODE_ENV);
-      console.log(
-        'Using URL:',
-        process.env.NODE_ENV === 'production'
-          ? 'http://iris-api:3000/sp/fetch/BASE'
-          : 'http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE'
-      );
+      console.log('SP_API_URL:', process.env.SP_API_URL);
 
       const irisResponse = await axios.post(
-        process.env.NODE_ENV === 'production'
-          ? 'http://iris-api:3000/sp/fetch/BASE'
-          : 'http://tchirisapi.tzuchihospital.co.id/sp/fetch/BASE',
+        process.env.SP_API_URL,
         {
           className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowSession',
           methodName: 'GetSessionByDate',
