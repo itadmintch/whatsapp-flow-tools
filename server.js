@@ -171,6 +171,117 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  if (req.method === 'POST' && req.url === '/qontak/auth') {
+    try {
+      const username = 'admissiontch@tzuchihospital.co.id';
+      const password = 'Tzuchi123!';
+      const grant_type = 'password';
+      const client_id = 'RRrn6uIxalR_QaHFlcKOqbjHMG63elEdPTair9B9YdY';
+      const client_secret = 'Sa8IGIh_HpVK1ZLAF0iFf7jU760osaUNV659pBIZR00';
+
+      const oQontakAuth = {
+        username,
+        password,
+        grant_type,
+        client_id,
+        client_secret
+      };
+
+      const qontakAuthResponse = await axios.post(
+        'https://service-chat.qontak.com/api/open/v1/oauth/token',
+        oQontakAuth,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      // Build Qontak Broadcast Object
+      const qontakBroadcast = {
+        to_name: 'Testing Pasien',
+        to_number: '+6287872708778',
+        message_template_id: '8e45dc8d-8649-49c0-9279-2f3d762387d7',
+        channel_integration_id: 'ddfef0ba-6b9f-407b-a058-52e519b2e063',
+        language: {
+          code: 'id'
+        },
+        parameters: {
+          body: [
+            {
+              key: '1',
+              value_text: 'Nama Pasien',
+              value: 'Pasien Testing'
+            },
+            {
+              key: '2',
+              value_text: 'Tanggal Pickup',
+              value: '2026-10-01'
+            },
+            {
+              key: '3',
+              value_text: 'Nama Pasien',
+              value: 'Pasien Testing'
+            },
+            {
+              key: '4',
+              value_text: 'Tanggal Lahir',
+              value: '2026-10-01'
+            },
+            {
+              key: '5',
+              value_text: 'Jenis Pemeriksaan',
+              value: 'CT Scan'
+            },
+            {
+              key: '6',
+              value_text: 'Tanggal Pemeriksaan',
+              value: '2026-10-01'
+            },
+            {
+              key: '7',
+              value_text: 'Waktu Pemeriksaan',
+              value: '10:00 AM'
+            },
+            {
+              key: '8',
+              value_text: 'Download Link',
+              value: 'https://amazinglink.com'
+            },
+            {
+              key: '9',
+              value_text: 'Catatan 1',
+              value: 'Catatan tambahan 1'
+            },
+            {
+              key: '10',
+              value_text: 'Catatan 2',
+              value: 'Catatan tambahan 2'
+            },
+            {
+              key: '11',
+              value_text: 'Catatan 3',
+              value: 'Catatan tambahan 3'
+            },
+            {
+              key: '12',
+              value_text: 'Catatan 4',
+              value: 'Catatan tambahan 4'
+            }
+          ]
+        }
+      };
+
+      console.log('Fetched Qontak Auth Key:', qontakAuthResponse.data);
+      sendJson(res, 200, {
+        data: qontakAuthResponse.data
+      });
+    } catch (error) {
+      console.error('Failed to fetch Qontak Auth Key:', error);
+      throw new Error('Failed to fetch Qontak Auth Key: ' + error.message);
+    }
+  }
+
   sendJson(res, 404, {
     code: 404,
     message: 'Not Found'

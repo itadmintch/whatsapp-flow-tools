@@ -549,7 +549,7 @@
                 "visible": "`${data.pasien_nama} != ''`"
               },
               {
-                "text": "`${data.pasien_nama}`",
+                "text": "${data.pasien_nama}",
                 "type": "TextBody",
                 "font-weight": "bold",
                 "visible": "`${data.pasien_nama} != ''`"
@@ -560,25 +560,25 @@
                 "visible": "`${data.nama_lengkap} != ''`"
               },
               {
-                "text": "`${data.nama_lengkap}`",
+                "text": "${data.nama_lengkap}",
                 "type": "TextBody",
                 "font-weight": "bold",
                 "visible": "`${data.nama_lengkap} != ''`"
               },
               {
-                "text": "`'Klinik: ' ${screen.ADMISSION.form.klinik}`",
+                "text": "`'Klinik: '${screen.ADMISSION.form.klinik}`",
                 "type": "TextBody",
                 "visible": false
               },
               {
-                "data-source": "`${screen.ADMISSION.data.klinik}`",
+                "data-source": "${screen.ADMISSION.data.klinik}",
                 "type": "Dropdown",
                 "label": "Klinik",
                 "name": "klinik",
                 "enabled": false
               },
               {
-                "data-source": "`${screen.ADMISSION.data.dokter}`",
+                "data-source": "${screen.ADMISSION.data.dokter}",
                 "type": "Dropdown",
                 "label": "Dokter",
                 "name": "dokter",
@@ -624,6 +624,7 @@
                     "jenis_kelamin": "${screen.REGISTRATION.form.jenis_kelamin}",
                     "pasien_nama": "${data.pasien_nama}",
                     "pasien_tanggal_lahir": "${screen.PASIEN.form.pasien_tanggal_lahir}",
+                    "pasien_nomor_telepon": "${screen.PASIEN.form.pasien_nomor_telepon}",
                     "klinik": "${screen.ADMISSION.form.klinik}",
                     "dokter": "${screen.ADMISSION.form.dokter}",
                     "date": "${screen.ADMISSION.form.calendar}",
@@ -654,6 +655,46 @@
         "success_image": {
           "type": "string",
           "__example__": ""
+        },
+        "tipe_pasien": {
+          "type": "string",
+          "__example__": ""
+        },
+        "nama_lengkap": {
+          "type": "string",
+          "__example__": ""
+        },
+        "tanggal_lahir": {
+          "type": "string",
+          "__example__": ""
+        },
+        "nomor_telepon": {
+          "type": "string",
+          "__example__": ""
+        },
+        "jenis_kelamin": {
+          "type": "string",
+          "__example__": ""
+        },
+        "klinik": {
+          "type": "string",
+          "__example__": ""
+        },
+        "dokter": {
+          "type": "string",
+          "__example__": ""
+        },
+        "date": {
+          "type": "string",
+          "__example__": ""
+        },
+        "time": {
+          "type": "string",
+          "__example__": ""
+        },
+        "pembayaran": {
+          "type": "string",
+          "__example__": ""
         }
       },
       "terminal": true,
@@ -676,18 +717,16 @@
                 "on-click-action": {
                   "name": "complete",
                   "payload": {
-                    "nama_lengkap": "${screen.KONFIRMASI.nama_lengkap}",
-                    "tanggal_lahir": "${screen.REGISTRATION.form.tanggal_lahir}",
-                    "nomor_telepon": "${screen.REGISTRATION.form.nomor_telepon}",
-                    "jenis_kelamin": "${screen.REGISTRATION.form.jenis_kelamin}",
-                    "pasien_nama": "${screen.KONFIRMASI.pasien_nama}",
-                    "pasien_tanggal_lahir": "${screen.PASIEN.form.pasien_tanggal_lahir}",
-                    "klinik": "${screen.ADMISSION.form.klinik}",
-                    "dokter": "${screen.ADMISSION.form.dokter}",
-                    "date": "${screen.ADMISSION.form.calendar}",
-                    "time": "${screen.ADMISSION.form.time}",
-                    "tipe_pasien": "${screen.ADMISSION.form.tipe_pasien}",
-                    "pembayaran": "${screen.ADMISSION.form.pembayaran}"
+                    "tipe_pasien": "${data.tipe_pasien}",
+                    "nama_lengkap": "${data.nama_lengkap}",
+                    "tanggal_lahir": "${data.tanggal_lahir}",
+                    "nomor_telepon": "${data.nomor_telepon}",
+                    "jenis_kelamin": "${data.jenis_kelamin}",
+                    "klinik": "${data.klinik}",
+                    "dokter": "${data.dokter}",
+                    "date": "${data.date}",
+                    "time": "${data.time}",
+                    "pembayaran": "${data.pembayaran}"
                   }
                 }
               }
