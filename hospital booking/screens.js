@@ -79,15 +79,15 @@ const fetchKlinik = async () => {
 // Fetch dokter by klinik from Iris
 const fetchDokterByKlinik = async (klinikId) => {
   try {
-    if (!klinikId) {
-      console.warn('No klinikId provided for fetching dokter. Returning empty list.');
-      return [];
-    }
+    // if (!klinikId) {
+    //   console.warn('No klinikId provided for fetching dokter. Returning empty list.');
+    //   return [];
+    // }
 
     const irisResponse = await axios.post(process.env.SP_API_URL, {
       className: 'Custom.IDTC.Reports.StoredProc.Qontak.FlowDoctor',
       methodName: 'GetDoctorByClinicJSON',
-      args: [klinikId]
+      args: [klinikId ? String(klinikId) : ''] // Allow empty string for klinikId to fetch all doctors if needed
     });
 
     // console.log(`Fetched dokter for klinik ${klinikId} from Iris API:`, irisResponse.data.result);
@@ -185,12 +185,15 @@ const fetchSession = async (dokterId, date) => {
  */
 async function getInitialAdmissionScreen(data) {
   // const dokterListForInit = getDokterOptionsForKlinik(data?.klinik);
+
+  console.log(await fetchDokterByKlinik(data.klinik));
+
   return {
     ...SCREEN_RESPONSES.ADMISSION,
     data: {
       ...SCREEN_RESPONSES.ADMISSION.data,
       klinik: await fetchKlinik(),
-      dokter: [],
+      dokter: await fetchDokterByKlinik(data.klinik),
       date: {},
       is_dokter_enabled: false,
       is_date_enabled: false,
@@ -341,7 +344,11 @@ async function handleRegistrationScreen(data) {
         data: {
           user_id: result.data?.user_id || '', // Fallback to empty string, since no real API hits to TrakCare
           pasien_nama: '', // Clear the name field from existing patient form
-          nama_lengkap: result.data?.nama_lengkap || ''
+          nama_lengkap: result.data?.nama_lengkap || '',
+          nomor_telepon: result.data?.nomor_telepon || '',
+          klinik: (await parsedKlinik(result.data.klinik)).klinik_name || '',
+          dokter: (await parsedDokter(result.data.klinik, result.data.dokter)).dokter_name || '',
+          is_jenis_kelamin_enabled: true
         }
       };
     } else {
@@ -371,6 +378,7 @@ async function handleRegistrationScreen(data) {
 async function handlePasienScreen(data) {
   if (data.trigger === 'sign_in') {
     const result = await handleSignIn(data);
+    console.log('Sign-in result:', result);
 
     if (result.success) {
       return {
@@ -378,7 +386,11 @@ async function handlePasienScreen(data) {
         data: {
           user_id: result.data?.user_id || '', // Fallback to empty string, since no real API hits to TrakCare
           nama_lengkap: '', // Clear the name field from new patient form
-          pasien_nama: data.pasien_nama || ''
+          pasien_nama: data.pasien_nama || '',
+          nomor_telepon: data.pasien_nomor_telepon || '',
+          klinik: (await parsedKlinik(result.data.klinik)).klinik_name || '',
+          dokter: (await parsedDokter(result.data.klinik, result.data.dokter)).dokter_name || '',
+          is_jenis_kelamin_enabled: false
         }
       };
     } else {

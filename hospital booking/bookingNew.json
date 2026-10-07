@@ -11,21 +11,21 @@
   "screens": [
     {
       "id": "WELCOME",
-      "title": "Welcome",
+      "title": "WELCOME",
       "data": {
         "welcome_message": {
           "type": "string",
-          "__example__": "Welcome to the Hospital Booking System!"
+          "__example__": "Selamat Datang di Sistem Booking Tzu Chi Hospital!"
         }
       },
       "layout": {
         "children": [
           {
             "type": "TextSubheading",
-            "text": "Welcome to the Hospital Booking System! Please proceed to Admission."
+            "text": "Selamat Datang di Sistem Booking Tzu Chi Hospital!"
           },
           {
-            "label": "Continue",
+            "label": "Selanjutnya",
             "on-click-action": {
               "name": "data_exchange",
               "payload": {
@@ -40,7 +40,7 @@
     },
     {
       "id": "ADMISSION",
-      "title": "Pendaftaran",
+      "title": "PENDAFTARAN",
       "data": {
         "error_messages": {
           "type": "string",
@@ -369,7 +369,7 @@
     },
     {
       "id": "REGISTRATION",
-      "title": "REGISTRATION",
+      "title": "REGISTRASI",
       "data": {
         "jenis_kelamin": {
           "type": "array",
@@ -445,7 +445,9 @@
                     "nama_lengkap": "${form.nama_lengkap}",
                     "tanggal_lahir": "${form.tanggal_lahir}",
                     "nomor_telepon": "${form.nomor_telepon}",
-                    "jenis_kelamin": "${form.jenis_kelamin}"
+                    "jenis_kelamin": "${form.jenis_kelamin}",
+                    "klinik": "${screen.ADMISSION.form.klinik}",
+                    "dokter": "${screen.ADMISSION.form.dokter}"
                   }
                 },
                 "type": "Footer"
@@ -460,7 +462,7 @@
     },
     {
       "id": "PASIEN",
-      "title": "Pasien Terdaftar",
+      "title": "PASIEN TERDAFTAR",
       "layout": {
         "children": [
           {
@@ -500,7 +502,9 @@
                     "trigger": "sign_in",
                     "pasien_nama": "${form.pasien_nama}",
                     "pasien_tanggal_lahir": "${form.pasien_tanggal_lahir}",
-                    "pasien_nomor_telepon": "${form.pasien_nomor_telepon}"
+                    "pasien_nomor_telepon": "${form.pasien_nomor_telepon}",
+                    "klinik": "${screen.ADMISSION.form.klinik}",
+                    "dokter": "${screen.ADMISSION.form.dokter}"
                   }
                 },
                 "type": "Footer"
@@ -527,6 +531,22 @@
         "nama_lengkap": {
           "type": "string",
           "__example__": ""
+        },
+        "nomor_telepon": {
+          "type": "string",
+          "__example__": ""
+        },
+        "is_jenis_kelamin_enabled": {
+          "type": "boolean",
+          "__example__": false
+        },
+        "klinik": {
+          "type": "string",
+          "__example__": ""
+        },
+        "dokter": {
+          "type": "string",
+          "__example__": ""
         }
       },
       "layout": {
@@ -538,32 +558,38 @@
                 "type": "TextSubheading"
               },
               {
-                "text": "`'**User ID:** ' ${data.user_id}`",
+                "text": "`'Tipe Pasien: **' ${screen.ADMISSION.form.tipe_pasien} '**'`",
                 "markdown": true,
-                "type": "TextBody",
-                "visible": "`${data.user_id} != ''`"
+                "type": "TextBody"
               },
               {
-                "text": "Nama Lengkap:",
+                "text": "`'Nama: **' ${data.pasien_nama} '**'`",
                 "type": "TextBody",
-                "visible": "`${data.pasien_nama} != ''`"
+                "visible": "`${data.pasien_nama} != ''`",
+                "markdown": true
               },
               {
-                "text": "${data.pasien_nama}",
+                "text": "`'Nama: **' ${data.nama_lengkap} '**'`",
                 "type": "TextBody",
-                "font-weight": "bold",
-                "visible": "`${data.pasien_nama} != ''`"
+                "visible": "`${data.nama_lengkap} != ''`",
+                "markdown": true
               },
               {
-                "text": "Nama Lengkap:",
+                "text": "`'Nomor Telepon: **' ${data.nomor_telepon} '**'`",
                 "type": "TextBody",
-                "visible": "`${data.nama_lengkap} != ''`"
+                "visible": "`${data.nomor_telepon} != ''`",
+                "markdown": true
               },
               {
-                "text": "${data.nama_lengkap}",
                 "type": "TextBody",
-                "font-weight": "bold",
-                "visible": "`${data.nama_lengkap} != ''`"
+                "text": "`'Jenis Kelamin: **' ${screen.REGISTRATION.form.jenis_kelamin} '**'`",
+                "visible": "${data.is_jenis_kelamin_enabled}",
+                "markdown": true
+              },
+              {
+                "type": "TextBody",
+                "text": "`'Pembayaran: **' ${screen.ADMISSION.form.pembayaran} '**'`",
+                "markdown": true
               },
               {
                 "text": "`'Klinik: '${screen.ADMISSION.form.klinik}`",
@@ -571,23 +597,21 @@
                 "visible": false
               },
               {
-                "data-source": "${screen.ADMISSION.data.klinik}",
-                "type": "Dropdown",
+                "type": "TextInput",
+                "name": "klinikText",
                 "label": "Klinik",
-                "name": "klinik",
-                "enabled": false
-              },
-              {
-                "data-source": "${screen.ADMISSION.data.dokter}",
-                "type": "Dropdown",
-                "label": "Dokter",
-                "name": "dokter",
                 "enabled": false
               },
               {
                 "text": "`'Dokter: ' ${screen.ADMISSION.form.dokter}`",
                 "type": "TextBody",
                 "visible": false
+              },
+              {
+                "type": "TextInput",
+                "name": "dokterText",
+                "label": "Dokter",
+                "enabled": false
               },
               {
                 "text": "Tanggal [YYYY-MM-DD]:",
@@ -599,13 +623,9 @@
                 "font-weight": "bold"
               },
               {
-                "text": "Jam:",
-                "type": "TextBody"
-              },
-              {
-                "text": "`${screen.ADMISSION.form.time}`",
+                "text": "`'Jam: **' ${screen.ADMISSION.form.time} '**'`",
                 "type": "TextBody",
-                "font-weight": "bold"
+                "markdown": true
               },
               {
                 "text": "Harap pastikan data Anda benar",
@@ -639,14 +659,14 @@
             "name": "flow_path",
             "type": "Form",
             "init-values": {
-              "klinik": "${screen.ADMISSION.form.klinik}",
-              "dokter": "${screen.ADMISSION.form.dokter}"
+              "klinikText": "${data.klinik}",
+              "dokterText": "${data.dokter}"
             }
           }
         ],
         "type": "SingleColumnLayout"
       },
-      "title": "Konfirmasi"
+      "title": "KONFIRMASI"
     },
     {
       "id": "COMPLETE",

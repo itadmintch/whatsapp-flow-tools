@@ -13,12 +13,7 @@ const { API_ENDPOINTS, DEMO_MODE, SIGNIN_MOCK_CONFIG, BOOKING_MOCK_CONFIG } = re
 async function handleRegistration(registrationData) {
   const payload = {
     trigger: 'submit_registration',
-    nama_lengkap: registrationData.nama_lengkap,
-    tanggal_lahir: registrationData.tanggal_lahir,
-    tempat_lahir: registrationData.tempat_lahir,
-    tipe_kartu: registrationData.tipe_kartu,
-    nomor_kartu: registrationData.nomor_kartu,
-    jenis_kelamin: registrationData.jenis_kelamin
+    ...registrationData
   };
 
   // NOTE No need to hit any real API endpoint for registration to TrakCare, just return payload as is.
@@ -67,9 +62,8 @@ async function handleSignIn(signInData) {
   //   return await makeApiCall(API_ENDPOINTS.SIGN_IN, payload);
 
   const payload = {
-    pasien_nama_or_telp: signInData.pasien_nama_or_telp,
-    pasien_tanggal_lahir: signInData.pasien_tanggal_lahir,
-    pasien_nomor_telepon: signInData.pasien_nomor_telepon
+    trigger: 'sign_in',
+    ...signInData
   };
 
   // NOTE No need to hit any real API endpoint for registration to TrakCare, just return payload as is.
