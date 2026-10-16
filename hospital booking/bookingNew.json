@@ -26,6 +26,7 @@
           },
           {
             "label": "Selanjutnya",
+            "center-caption": "Pengisian data pendaftaran ini hanya berlaku untuk 1 pasien.",
             "on-click-action": {
               "name": "data_exchange",
               "payload": {
