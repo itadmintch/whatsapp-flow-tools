@@ -26,7 +26,7 @@
           },
           {
             "label": "Selanjutnya",
-            "center-caption": "Pengisian data pendaftaran ini hanya berlaku untuk 1 pasien.",
+            "center-caption": "Formulir ini hanya berlaku untuk 1 (satu) pasien. Untuk mendaftarkan pasien lainnya, silakan isi formulir secara terpisah.",
             "on-click-action": {
               "name": "data_exchange",
               "payload": {
