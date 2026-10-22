@@ -71,7 +71,7 @@ const fetchKlinik = async () => {
       throw new Error('Invalid response format from Iris API: expected an array.');
     }
   } catch (error) {
-    console.error('Failed to fetch klinik from Iris API:', error);
+    // console.error('Failed to fetch klinik from Iris API:', error);
     throw new Error('Failed to fetch klinik from Iris API: ' + error.message);
   }
 };
@@ -98,7 +98,7 @@ const fetchDokterByKlinik = async (klinikId) => {
       throw new Error('Invalid response format from Iris API: expected an array.');
     }
   } catch (error) {
-    console.error(`Failed to fetch dokter for klinik ${klinikId} from Iris API:`, error);
+    // console.error(`Failed to fetch dokter for klinik ${klinikId} from Iris API:`, error);
     throw new Error(`Failed to fetch dokter for klinik ${klinikId} from Iris API: ` + error.message);
   }
 };
@@ -125,7 +125,7 @@ const fetchDatesByDokter = async (dokterId) => {
       throw new Error('Invalid response format from Iris API: expected an array.');
     }
   } catch (error) {
-    console.error(`Failed to fetch dates for dokter ${dokterId} from Iris API:`, error);
+    // console.error(`Failed to fetch dates for dokter ${dokterId} from Iris API:`, error);
     throw new Error(`Failed to fetch dates for dokter ${dokterId} from Iris API: ` + error.message);
   }
 };
@@ -141,7 +141,7 @@ const fetchSession = async (dokterId, date) => {
     // console.log('Test Fetched Iris API:', irisResponse.data);
     return irisResponse.data.result || [];
   } catch (error) {
-    console.error('Failed to fetch klinik from Iris API:', error);
+    // console.error('Failed to fetch klinik from Iris API:', error);
     throw new Error('Failed to fetch klinik from Iris API: ' + error.message);
   }
 };
