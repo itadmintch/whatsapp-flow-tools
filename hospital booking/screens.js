@@ -138,7 +138,7 @@ const fetchSession = async (dokterId, date) => {
       args: [dokterId, date]
     });
 
-    console.log('Test Fetched Iris API:', irisResponse.data);
+    // console.log('Test Fetched Iris API:', irisResponse.data);
     return irisResponse.data.result || [];
   } catch (error) {
     console.error('Failed to fetch klinik from Iris API:', error);
@@ -185,8 +185,6 @@ const fetchSession = async (dokterId, date) => {
  */
 async function getInitialAdmissionScreen(data) {
   // const dokterListForInit = getDokterOptionsForKlinik(data?.klinik);
-
-  console.log(await fetchDokterByKlinik(data.klinik));
 
   return {
     ...SCREEN_RESPONSES.ADMISSION,
@@ -294,7 +292,7 @@ async function handleAdmissionScreen(data) {
   const hasDokter = Boolean(data.dokter);
   const hasDate = Boolean(data.date);
 
-  console.log('Handling ADMISSION screen with data:', data);
+  // console.log('Handling ADMISSION screen with data:', data);
 
   // Get options based on current selections
   const dokterOptions = await fetchDokterByKlinik(data.klinik);
@@ -378,7 +376,7 @@ async function handleRegistrationScreen(data) {
 async function handlePasienScreen(data) {
   if (data.trigger === 'sign_in') {
     const result = await handleSignIn(data);
-    console.log('Sign-in result:', result);
+    // console.log('Sign-in result:', result);
 
     if (result.success) {
       return {
@@ -413,11 +411,11 @@ async function handlePasienScreen(data) {
 const parsedKlinik = async (klinikId) => {
   try {
     const klinikList = await fetchKlinik();
-    console.log(`Fetched klinik list from Iris API for parsing KlinikId ${klinikId}:`, klinikList);
+    // console.log(`Fetched klinik list from Iris API for parsing KlinikId ${klinikId}:`, klinikList);
 
     const selectedKlinik = klinikList.find((klinik) => klinik.id === klinikId);
 
-    console.log(`Parsed klinik for klinikId ${klinikId}:`, selectedKlinik);
+    // console.log(`Parsed klinik for klinikId ${klinikId}:`, selectedKlinik);
 
     return {
       success: true,
@@ -436,11 +434,11 @@ const parsedKlinik = async (klinikId) => {
 const parsedDokter = async (klinikId, dokterId) => {
   try {
     const dokterList = await fetchDokterByKlinik(klinikId);
-    console.log(`Fetched dokter list from Iris API for parsing DokterId ${dokterId}:`, dokterList);
+    // console.log(`Fetched dokter list from Iris API for parsing DokterId ${dokterId}:`, dokterList);
 
     const selectedDokter = dokterList.find((dokter) => dokter.id === dokterId);
 
-    console.log(`Parsed dokter for dokterId ${dokterId}:`, selectedDokter);
+    // console.log(`Parsed dokter for dokterId ${dokterId}:`, selectedDokter);
 
     return {
       success: true,
@@ -464,7 +462,7 @@ async function handleKonfirmasiScreen(data) {
   if (data.trigger === 'submit_booking') {
     const result = await handleBookingSubmission(data);
 
-    console.log('Booking submission result:', result);
+    // console.log('Booking submission result:', result);
 
     // Result Sample
     // Booking submission result: {
@@ -500,8 +498,8 @@ async function handleKonfirmasiScreen(data) {
     const klinikResult = await parsedKlinik(data.klinik);
     const dokterResult = await parsedDokter(data.klinik, data.dokter);
 
-    console.log('Parsed klinik result:', klinikResult);
-    console.log('Parsed dokter result:', dokterResult);
+    // console.log('Parsed klinik result:', klinikResult);
+    // console.log('Parsed dokter result:', dokterResult);
 
     const finalData = {
       tipe_pasien: data.tipe_pasien,
@@ -516,7 +514,7 @@ async function handleKonfirmasiScreen(data) {
       pembayaran: data.pembayaran || ''
     };
 
-    console.log('Final data to send to next screen:', finalData);
+    console.log('Final data to send to completion screen:', finalData);
 
     // TODO: Add validation for parsed data fields before sending to next screen, make sure promise is "OK"
     if (result.success && klinikResult.success) {
